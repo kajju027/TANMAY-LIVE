@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRICKET NEWS POINT</title>
+<meta name="color-scheme" content="dark light" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #19e183;
+  --blue: #2196f3;
+  --blue2: #2b5cff;
+  --green2: #00c49a;
+  --bg: linear-gradient(145deg, #0e1917 0%, #0d2c1c 100%);
+  --card: #122a20;
+  --border: #2be1a2;
+  --txt: #e5f7f1;
+  --primary: #19e183;
+  --primary2: #2196f3;
+  --footer: #141d19;
+  --sayan: #2b5cff;
+}
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'Montserrat', Arial, 'Segoe UI', sans-serif;
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+.loading-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(18,36,32,0.95);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn .7s;
+}
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+.loading-title {
+  font-size: 2.1rem;
+  font-weight: bold;
+  color: var(--blue2);
+  letter-spacing: 2.5px;
+  margin-bottom: 7px;
+  text-shadow: 0 2px 18px #2be1a244;
+  animation: popUp .9s cubic-bezier(.5,2,.3,1.2);
+}
+.loading-sub {
+  font-size: 1.25rem;
+  letter-spacing:1.8px;
+  color: var(--green);
+  font-weight: 700;
+  text-shadow: 0 2px 12px #19e18333;
+  animation: popUp .95s cubic-bezier(.5,2,.3,1.2);
+}
+@keyframes popUp {
+  from {transform:scale(.92) translateY(38px); opacity:0;}
+  70% {transform:scale(1.05);}
+  to {transform:scale(1) translateY(0); opacity:1;}
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.18rem;
+  font-weight: bold;
+  padding: 12px 0 6px 0;
+  letter-spacing: 2.2px;
+  background: var(--card);
+  border-bottom: 2px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  text-align: center;
+  min-height: 38px;
+  user-select: none;
+  border-radius: 0;
+  box-shadow: 0 2px 16px #1be18318;
+}
+.typewriter {
+  display: inline-block; overflow: hidden; white-space: nowrap;
+  border-right: 2.5px solid var(--primary2); 
+  animation: caret 1.2s steps(1) infinite;
+  padding-right: 5px;
+}
+@keyframes caret {
+  0%,100% { border-color: var(--primary2);}
+  50% { border-color: transparent;}
+}
+.content {
+  padding: 10px 4vw 0 4vw;
+  max-width: 670px;
+  margin: 0 auto;
+}
+.video-section {
+  position: relative;
+  margin: 8px 0 17px 0;
+  border-radius: 13px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 3px 24px #19e18322, 0 1px 12px #000a;
+  border: 2.5px solid var(--border);
+}
+.video-section iframe {
+  width: 100%;
+  min-width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 210px;
+  max-height: 320px;
+  border: none;
+  background: #000;
+  display: block;
+  transition: all 0.3s;
+  border-radius: 13px;
+}
+.sayan-watermark {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  color: #fff;
+  font-size: 0.95em;
+  opacity: 0.58;
+  background: rgba(33,150,243,0.17);
+  padding: 2px 9px;
+  border-radius: 8px;
+  letter-spacing:2px;
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+}
+.menu-bar {
+  margin: 15px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  background: var(--card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px #1be18344;
+}
+.menu-btn {
+  flex: 1;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 1.03rem;
+  font-weight: 700;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--blue2);
+  border-right: 2px solid var(--border);
+  outline: none;
+  background: none;
+  transition: background .18s, color .13s, font-size .13s, box-shadow .13s;
+  box-shadow:none;
+  border-radius: 16px;
+}
+.menu-btn:last-child { border-right: none;}
+.menu-btn.active {
+  background: linear-gradient(90deg, var(--green) 0%, var(--blue2) 100%);
+  color: #fff; font-size:1.10rem;
+  border-bottom: 3px solid var(--green);
+  box-shadow:0 2px 12px #19e18355;
+}
+.menu-btn:hover:not(.active) {
+  background: var(--blue2);
+  color: #fff;
+  box-shadow:0 2px 8px #19e18344;
+}
+.section {
+  display: none;
+  margin-top: 13px;
+}
+.section.active { display: block;}
+.news-list {
+  padding: 0; margin: 0; list-style: none;
+}
+.news-item {
+  background: var(--card);
+  border-radius: 16px;
+  margin-bottom: 11px;
+  box-shadow: 0 2px 13px #19e18319,0 1px 7px #0005;
+  padding: 15px 13px 13px 13px;
+  font-size: 1.01rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  transition:box-shadow .13s, transform .11s, border .11s;
+  border: 2px solid var(--border);
+}
+.news-item:hover {
+  box-shadow:0 5px 19px var(--blue2),0 1px 9px #000b;
+  transform: scale(1.015) translateY(-2px);
+  border-color: var(--green);
+}
+.news-item-image {
+  width: 100%;
+  max-width: 390px;
+  border-radius: 11px;
+  object-fit: cover;
+  margin-bottom: 7px;
+  min-height: 75px;
+  max-height: 170px;
+  background: #21242a;
+  display: block;
+  box-shadow:0 2px 8px #0003;
+}
+.news-item-title {
+  font-size: 1.11rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--txt);
+  letter-spacing:.3px;
+}
+.news-item-desc {
+  color: #bde6d1;
+  font-size: 0.97rem;
+  margin-bottom: 2px;
+}
+.news-item a {
+  text-decoration: none;
+  color: var(--blue2);
+  font-weight: 600;
+  margin-top: 2px;
+  font-size: 1.01rem;
+  letter-spacing: 0.2px;
+  word-break: break-word;
+  transition: color .13s;
+}
+.news-item a:hover { color: var(--green); }
+.skel-news {
+  background: var(--card);
+  border-radius: 13px;
+  margin-bottom: 13px;
+  padding: 15px 13px 13px 13px;
+  min-height: 79px;
+  animation: skel 1.1s infinite linear alternate;
+  border:2px solid var(--border);
+}
+@keyframes skel { from { opacity:.75;} to{opacity:0.5;} }
+.scoreboard-section {
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 2px 10px #19e18318,0 1px 7px #25361e;
+  border:2px solid var(--border);
+  margin-bottom: 10px;
+  padding:0;
+  overflow:hidden;
+}
+.scoreboard-header {
+  text-align:center;
+  padding:12px 0 1px 0;
+  font-weight:700;
+  font-size:1.12em;
+  color:var(--primary2);
+  background:rgba(33,150,243,0.13);
+  letter-spacing:.8px;
+}
+.scoreboard-iframe {
+  width: 100%;
+  height: 210px;
+  min-height: 120px;
+  max-height: 320px;
+  border: none;
+  background: #000;
+  display: block;
+}
+.scoreboard-footer {
+  text-align:center;
+  color:#9ee8c8;
+  font-size:.96em;
+  padding-bottom:8px;
+  letter-spacing:.3px;
+}
+.cnp-boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 4px; /* ফাঁকা জায়গা কমানো */
+}
+.cnp-box {
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px #19e18330;
+  padding: 12px 13px 10px 13px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: var(--txt);
+  transition:box-shadow .13s, transform .09s, border .09s;
+  position:relative;
+  border:2px solid var(--border);
+}
+.cnp-box:hover {
+  box-shadow:0 4px 18px var(--blue2),0 1px 7px #000b;
+  transform: scale(1.012) translateY(-2px);
+  border-color: var(--green2);
+}
+.cnp-icon {
+  font-size: 1.30em;
+  margin-right: 8px;
+}
+.btns-row {
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  flex-wrap:nowrap;
+  margin:7px 0 0 0;
+}
+.follow-btn {
+  display: inline-block;
+  background: var(--primary2);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.01rem;
+  border-radius: 13px;
+  border: none;
+  padding: 10px 19px;
+  text-align: center;
+  cursor: pointer;
+  margin: 0 7px 0 0;
+  box-shadow: 0 2px 10px #2196f32e;
+  letter-spacing: 0.6px;
+  text-decoration: none;
+  position:relative;
+  overflow:hidden;
+  transition: background .15s, color .12s, transform .1s;
+}
+.follow-btn:active { background: var(--green); color:#fff; transform:scale(.97);}
+.contact-btn {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.01rem;
+  border-radius: 13px;
+  border: none;
+  padding: 10px 19px;
+  text-align: center;
+  cursor: pointer;
+  margin: 0 0 0 0;
+  box-shadow: 0 2px 10px #19e1833f;
+  letter-spacing: 0.6px;
+  text-decoration: none;
+  position:relative;
+  overflow:hidden;
+  transition: background .15s, color .12s, transform .1s;
+  border:2px solid var(--primary2);
+}
+.contact-btn:active { background: var(--blue2); color:#fff; transform:scale(.97);}
+.visitor-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card);
+  padding: 8px 13px;
+  border-radius: 13px;
+  margin-top: 14px;
+  margin-bottom: 0;
+  font-size: 0.97rem;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow:0 1px 5px #16191c1b;
+  border:1.2px solid var(--border);
+}
+.visitor-footer .visitor-text {
+  display: flex;
+  flex-direction: column;
+}
+.visitor-footer .visitor-label {
+  font-weight: 600;
+  font-size: 0.98rem;
+  margin-bottom: 2px;
+}
+.visitor-footer .visitor-count {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--primary2);
+}
+.footer {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  color: #999;
+  font-size: 1.01rem;
+  background: var(--footer);
+  padding: 8px 0 4px 0;
+  border-top: 1.5px solid var(--border);
+  position: relative;
+  letter-spacing:.3px;
+  border-radius: 13px 13px 0 0;
+}
+.footer-line {
+  width: 100%;
+  height: 3px;
+  background: var(--primary2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 2px 2px 0 0;
+}
+.sayan-contact {
+  color: var(--sayan);
+  font-weight: bold;
+  font-size: 1.17em;
+  display: inline-block;
+  margin-bottom: 3px;
+  cursor: pointer;
+  text-shadow:0 2px 11px #2196f354;
+  letter-spacing:.8px;
+  transition:color .13s, text-shadow .14s, transform .09s;
+}
+.sayan-contact:active {
+  color: var(--green);
+  text-shadow:0 2px 17px #19e183ab;
+  transform:scale(.93);
+}
+@media (max-width: 670px) {
+  .content { padding: 7px 2vw 0 2vw; }
+  .header { font-size: 1.01rem; padding: 8px 0 5px 0; min-height: 32px;}
+  .scoreboard-iframe, .scoreboard-iframe.expanded { height: 110px; min-height: 70px; max-height: 160px;}
+}
+@media (max-width: 500px) {
+  .header { font-size: 0.93rem; padding: 7px 0 4px 0; min-height: 23px;}
+  .scoreboard-iframe, .scoreboard-iframe.expanded { height: 70px; min-height: 50px; max-height: 120px;}
+}
+</style>
+</head>
+<body>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-title">ASIA CUP 2K25</div>
+  <div class="loading-sub">CRICKET NEWS POINT</div>
+</div>
+<div class="header" id="titleHeader">
+  <span class="typewriter" id="typewriter"></span>
+</div>
+<div class="content">
+  <div class="video-section" id="videoSection">
+    <!-- Willow-Cricbuzz Embed | q=240p for default quality -->
+    <iframe 
+      id="liveVideo" 
+      src="https://cricketstan.github.io/Willow-Cricbuzz-/?q=240p" 
+      allow="autoplay; encrypted-media" 
+      allowfullscreen 
+      loading="eager">
+    </iframe>
+    <span class="sayan-watermark">Pᴏᴡᴇʀᴇᴅ Bʏ 𝗦ᴀʏᴀɴ xᴍᴅ</span>
+  </div>
+  <div class="menu-bar">
+    <button class="menu-btn active" data-section="news">News</button>
+    <button class="menu-btn" data-section="scoreboard">Scoreboard</button>
+    <button class="menu-btn" data-section="cnp">CNP</button>
+  </div>
+  <div class="section active" id="news">
+    <ul class="news-list" id="newsList">
+      <li class="skel-news"></li>
+      <li class="skel-news"></li>
+      <li class="skel-news"></li>
+      <li class="skel-news"></li>
+    </ul>
+    <div class="visitor-footer">
+      <div class="visitor-text">
+        <span class="visitor-label">Version</span>
+        <span class="visitor-count">1.0.2</span>
+      </div>
+      <div class="visitor-text" style="align-items:center;">
+        <span class="visitor-label">Visitor</span>
+        <img src="https://visit-counter.vercel.app/counter.png?page=https%3A%2F%2Fcnp-official.netlify.app%2F&s=55&c=2196f3&bg=00000000&no=3&ff=digii&tb=&ta=" alt="visits" style="height:36px;">
+      </div>
+    </div>
+  </div>
+  <div class="section" id="scoreboard">
+    <div class="scoreboard-section">
+      <div class="scoreboard-header">Live Cricket Score (India & World Matches)</div>
+      <!-- CricHeroes Free Widget (auto updates, good UI) -->
+      <iframe class="scoreboard-iframe" src="https://widget.crictimes.org/" title="Live Cricket Score"></iframe>
+      <div class="scoreboard-footer">
+        <a href="https://www.espncricinfo.com/live-cricket-score" target="_blank" style="color:#21e183;text-decoration:underline;">See full live scoreboard &rarr;</a>
+      </div>
+    </div>
+    <div class="visitor-footer">
+      <div class="visitor-text">
+        <span class="visitor-label">Version</span>
+        <span class="visitor-count">1.0.2</span>
+      </div>
+      <div class="visitor-text" style="align-items:center;">
+        <span class="visitor-label">Visitor</span>
+        <img src="https://visit-counter.vercel.app/counter.png?page=https%3A%2F%2Fcnp-official.netlify.app%2F&s=55&c=2196f3&bg=00000000&no=3&ff=digii&tb=&ta=" alt="visits" style="height:36px;">
+      </div>
+    </div>
+  </div>
+  <div class="section" id="cnp">
+    <div class="cnp-boxes">
+      <div class="cnp-box"><span class="cnp-icon">🔋</span>Battery: <span id="batteryLevel">--%</span></div>
+      <div class="cnp-box"><span class="cnp-icon">🌐</span>Your IP: <span id="userIP">Loading...</span></div>
+      <div class="cnp-box"><span class="cnp-icon">⏰</span>Local Time: <span id="localTime">--:--:--</span></div>
+      <div class="cnp-box"><span class="cnp-icon">⏳</span>Uptime: <span id="uptime">--</span></div>
+    </div>
+    <div class="btns-row">
+      <a class="follow-btn" href="https://whatsapp.com/channel/0029Va9UKhEL7UVN6cfr8a16" target="_blank">FOLLOW</a>
+      <a class="contact-btn" id="contactBtn" href="#" target="_blank">Contact</a>
+    </div>
+    <div class="visitor-footer">
+      <div class="visitor-text">
+        <span class="visitor-label">Version</span>
+        <span class="visitor-count">1.2.0</span>
+      </div>
+      <div class="visitor-text" style="align-items:center;">
+        <span class="visitor-label">Visitor</span>
+        <img src="https://visit-counter.vercel.app/counter.png?page=https%3A%2F%2Fcnp-official.netlify.app%2F&s=55&c=2196f3&bg=00000000&no=3&ff=digii&tb=&ta=" alt="visits" style="height:36px;">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="footer-line"></div>
+  <div>
+    <span class="sayan-contact" id="sayanContact" title="Contact Tanmay on WhatsApp">ADV• TANMAY x LIVE</span>
+  </div>
+  ©Sayan | All rights reserved
+</div>
+<script>
+// Opening animation: 2.4s
+window.onload = () => {
+  setTimeout(()=>{
+    document.getElementById('loadingOverlay').style.opacity = 0;
+    setTimeout(()=>document.getElementById('loadingOverlay').style.display = 'none', 400);
+  },2400);
+};
+// Typewriter animation
+const typeTxts = [
+  "CRICKET NEWS POINT",
+  "ASIA CUP 2K25",
+  "LIVE CRICKET 24x7",
+  "ENJOY LAG FREE MATCH",
+  "SHARE WITH YOUR FRIEND",
+  "ADV• TANMAY LIVE",
+  "POV• SAYAN X MD"
+];
+let typeIdx = 0, charIdx = 0, del = false;
+function typeLoop() {
+  const tw = document.getElementById('typewriter');
+  if (!del) {
+    tw.textContent = typeTxts[typeIdx].slice(0, ++charIdx);
+    if (charIdx === typeTxts[typeIdx].length) { del = true; setTimeout(typeLoop, 1100);}
+    else setTimeout(typeLoop, 56);
+  } else {
+    tw.textContent = typeTxts[typeIdx].slice(0, --charIdx);
+    if (charIdx === 0) { del = false; typeIdx = (typeIdx+1)%typeTxts.length; setTimeout(typeLoop, 380);}
+    else setTimeout(typeLoop, 19);
+  }
+}
+typeLoop();
+
+// Menu click
+const menuBtns = document.querySelectorAll('.menu-btn');
+const sections = document.querySelectorAll('.section');
+menuBtns.forEach(btn => {
+  btn.onclick = () => {
+    menuBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    sections.forEach(sec => sec.classList.remove('active'));
+    document.getElementById(btn.dataset.section).classList.add('active');
+  };
+});
+
+// News load (English, Times of India)
+async function loadNews() {
+  const newsList = document.getElementById("newsList");
+  newsList.innerHTML =
+    '<li class="skel-news"></li><li class="skel-news"></li><li class="skel-news"></li><li class="skel-news"></li>';
+  try {
+    const res = await fetch("https://api.rss2json.com/v1/api.json?rss_url=https://timesofindia.indiatimes.com/rssfeeds/4719148.cms");
+    const data = await res.json();
+    newsList.innerHTML = '';
+    data.items.slice(0, 10).forEach(item => {
+      const li = document.createElement('li');
+      li.className = "news-item";
+      let imgHtml = "";
+      if(item.enclosure && item.enclosure.link){
+        imgHtml = `<img class="news-item-image" src="${item.enclosure.link}" alt="news image" loading="lazy">`;
+      }
+      let desc = item.description ? item.description.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').trim() : '';
+      if(desc.length > 150) desc = desc.substring(0, 150) + "...";
+      li.innerHTML = `${imgHtml}<div class="news-item-title">${item.title}</div>
+      <div class="news-item-desc">${desc}</div>
+      <a href="${item.link}" target="_blank">Read More</a>`;
+      newsList.appendChild(li);
+    });
+  } catch(e) {
+    newsList.innerHTML = '<li class="news-item">News could not be loaded, please try again later.</li>';
+  }
+}
+loadNews();
+setInterval(loadNews, 180000);
+
+// Battery (if online)
+function updateBattery() {
+  const elem = document.getElementById('batteryLevel');
+  if (!navigator.onLine) {
+    elem.textContent = '--%';
+    return;
+  }
+  if ('getBattery' in navigator) {
+    navigator.getBattery().then(function(battery) {
+      elem.textContent = Math.round(battery.level * 100) + "%";
+    });
+  } else {
+    elem.textContent = '--%';
+  }
+}
+updateBattery();
+window.addEventListener('online', updateBattery);
+window.addEventListener('offline', updateBattery);
+setInterval(updateBattery, 12000);
+
+// User IP
+fetch('https://api.ipify.org/?format=json')
+  .then(res=>res.json())
+  .then(d=>document.getElementById('userIP').textContent = d.ip)
+  .catch(()=>document.getElementById('userIP').textContent = '--');
+
+// Local time
+async function updateLocalTime() {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+    const tz = data.timezone || 'Asia/Kolkata';
+    setInterval(()=>{
+      const now = new Date();
+      const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: tz };
+      const timeString = now.toLocaleTimeString('en-US', options);
+      document.getElementById('localTime').textContent = timeString;
+    },1000);
+  } catch(e) {
+    document.getElementById('localTime').textContent = '--:--:--';
+  }
+}
+updateLocalTime();
+
+// Uptime (from 15 Aug 2025, 5:30AM IST)
+function updateUptime() {
+  const start = new Date("2025-08-15T00:00:00.000+05:30");
+  setInterval(()=>{
+    const now = new Date();
+    let diff = Math.floor((now - start)/1000);
+    if(diff<0) diff=0;
+    const days = Math.floor(diff / 86400); diff %= 86400;
+    const hours = Math.floor(diff / 3600); diff %= 3600;
+    const mins = Math.floor(diff / 60);
+    const secs = diff % 60;
+    document.getElementById('uptime').textContent =
+      `${String(days).padStart(2,'0')}d ${String(hours).padStart(2,'0')}h ${String(mins).padStart(2,'0')}m ${String(secs).padStart(2,'0')}s`;
+  },1000);
+}
+updateUptime();
+
+// WhatsApp contact
+function getWhatsappLink() {
+  const base = "https://wa.me/919382095660";
+  const text = encodeURIComponent("👋 Hi Tanmay, I want to create a live cricket website like CNP! 🌏🏏");
+  return base + "?text=" + text;
+}
+document.getElementById("contactBtn").onclick = function(e){
+  e.preventDefault();
+  window.open(getWhatsappLink(), "_blank");
+};
+document.getElementById("sayanContact").onclick = function(e){
+  e.preventDefault();
+  window.open(getWhatsappLink(), "_blank");
+};
+</script>
+</body>
+</html>
